@@ -1,0 +1,75 @@
+name: Test Formula
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+defaults:
+  run:
+    shell: bash -euo pipefail {0}
+
+jobs:
+  test:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS Apple Silicon
+            runner: macos-15
+          - name: macOS Intel
+            runner: macos-15-intel
+          - name: Ubuntu x86_64
+            runner: ubuntu-22.04
+
+    steps:
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@df4b09108a1de9d6f995fe68f302b3f68bd6d2ef # 2026.07.20.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cache Homebrew Bundler RubyGems
+        id: cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.set-up-homebrew.outputs.gems-path }}
+          key: ${{ matrix.runner }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
+          restore-keys: ${{ matrix.runner }}-rubygems-
+
+      - name: Install Homebrew Bundler RubyGems
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: brew install-bundler-gems
+
+      - name: Check Formula style
+        run: brew style Formula/acn.rb
+
+      - name: Audit Formula
+        run: brew audit --strict --online FTShare-Lab/tap/acn
+
+      - name: Install Formula
+        run: brew install FTShare-Lab/tap/acn
+
+      - name: Test Formula
+        run: brew test FTShare-Lab/tap/acn
+
+      - name: Verify installed files
+        run: |
+          prefix="$(brew --prefix FTShare-Lab/tap/acn)"
+          "${prefix}/bin/acn" --version
+          "${prefix}/bin/acn-router" --version
+          "${prefix}/bin/acn-maintainer" --version
+          test -f "${prefix}/share/acn/maintainer-workbench/app.html"
+          test -f "${prefix}/share/acn/maintainer-workbench/acn_landing.html"
