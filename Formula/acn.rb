@@ -7,13 +7,13 @@ class Acn < Formula
     depends_on macos: :big_sur
 
     on_arm do
-      url "https://github.com/FTShare-Lab/agent-claim-network/releases/download/v0.2.2/agent-claim-network-v0.2.2-aarch64-apple-darwin.tar.gz"
-      sha256 "678e1249c2a428161f55722331e4153e9c166ab215c92f6d17de8da6c4a8bf47"
+      url "https://github.com/FTShare-Lab/agent-claim-network/releases/download/v0.2.3/agent-claim-network-v0.2.3-aarch64-apple-darwin.tar.gz"
+      sha256 "89841cabc80047c15d287cab6cc4d385e70c2d66735fb32f2b9c9e501d00f63d"
     end
 
     on_intel do
-      url "https://github.com/FTShare-Lab/agent-claim-network/releases/download/v0.2.2/agent-claim-network-v0.2.2-x86_64-apple-darwin.tar.gz"
-      sha256 "24dda009839675d68cc2b1b8f2e347c66618ec3ae63e48b9688811cd6a2133cb"
+      url "https://github.com/FTShare-Lab/agent-claim-network/releases/download/v0.2.3/agent-claim-network-v0.2.3-x86_64-apple-darwin.tar.gz"
+      sha256 "0e459651d0ea8a0bd7058e7b5d2df681ec19152bd1aa52c70dab79031ea49603"
     end
   end
 
@@ -21,8 +21,8 @@ class Acn < Formula
     depends_on arch: :x86_64
 
     on_intel do
-      url "https://github.com/FTShare-Lab/agent-claim-network/releases/download/v0.2.2/agent-claim-network-v0.2.2-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "dd11bae164e691c0bc5bee0770e492fda97d8a84203e39162c65f392afbee798"
+      url "https://github.com/FTShare-Lab/agent-claim-network/releases/download/v0.2.3/agent-claim-network-v0.2.3-x86_64-unknown-linux-gnu.tar.gz"
+      sha256 "c0ca05999b54e21459984aa1a2b4ba9a544a91a186a6d395b73ff57809731043"
     end
   end
 
