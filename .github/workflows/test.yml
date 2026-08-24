@@ -35,6 +35,13 @@ jobs:
             runner: ubuntu-22.04
 
     steps:
+      - name: Remove unused preinstalled AWS tap
+        if: runner.os == 'macOS'
+        run: |
+          if brew tap | grep -Fxq "aws/tap"; then
+            brew untap aws/tap
+          fi
+
       - name: Set up Homebrew
         id: set-up-homebrew
         uses: Homebrew/actions/setup-homebrew@fd832223f9f99ebf0244dd20658680e5d4aca049 # 2026.08.03.2
