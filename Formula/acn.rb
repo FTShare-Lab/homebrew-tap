@@ -4,8 +4,6 @@ class Acn < Formula
   license any_of: ["Apache-2.0", "MIT"]
 
   on_macos do
-    depends_on macos: :big_sur
-
     on_arm do
       url "https://github.com/FTShare-Lab/agent-claim-network/releases/download/v0.3.0/agent-claim-network-v0.3.0-aarch64-apple-darwin.tar.gz"
       sha256 "58d61e0bc8b51f5b97ad6599a41fcd5ec36467b90457f5d346f8af21b6022ce0"
